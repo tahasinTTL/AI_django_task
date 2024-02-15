@@ -24,19 +24,19 @@ I've share some screenshot sample.
 ![Database](./screenshot/table_modify.png)
 
 
-To run the project:
+<h3>To run the project:</h3> You have to install python if haven't.
 
-<h2>First Create virtual environment:</h2>
+## First Create virtual environment:
     python -m venv venv
 
-<h2>Activate the venv:</h2>
+## Activate the venv:
 <h4>Mac</h4>
     source venv/bin/activate
 
 <h4>Windows</h4>
     venv\Scripts\activate
 
-<h2>Install the packages:</h2>
+## <h2>Install the packages:</h2>
     pip install -r req.txt
 
 ## Default project run code:
