@@ -1,65 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Your Table</title>
     <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
 
-        .edit{
-            color: blue;
-        }
-        </style>
-</head>
-<body>
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+
+      .edit {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
     <table id="editable-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>trade_code</th>
-                <th>high</th>
-                <th>Low</th>
-                <th>Open</th>
-                <th>Close</th>
-                <th>Volume</th>
-                <th>Action</th>
-                <!-- Add more column headers as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data %}
-            <tr>
-                <td>{{ item.date }}</td>
-                <td>{{ item.trade_code }}</td>
-                <td>{{ item.high }}</td>
-                <td>{{ item.low }}</td>
-                <td>{{ item.open }}</td>
-                <td>{{ item.close }}</td>
-                <td>{{ item.volume }}</td>
-                <td class='edit'>edit</td>
-                <!-- Display other fields as needed -->
-            </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>trade_code</th>
+          <th>high</th>
+          <th>Low</th>
+          <th>Open</th>
+          <th>Close</th>
+          <th>Volume</th>
+          <th>Action</th>
+          <!-- Add more column headers as needed -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data %}
+        <tr id="row-{{forloop.counter}}">
+          <td>
+            <span>{{ item.id }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="id"
+              value="{{item.id}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.date }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="date"
+              value="{{item.date}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.trade_code }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="trade_code"
+              value="{{item.trade_code}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.high }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="high"
+              value="{{item.high}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.low }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="low"
+              value="{{item.low}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.open }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="open"
+              value="{{item.open}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.close }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="close"
+              value="{{item.close}}"
+              style="display: none"
+            />
+          </td>
+          <td>
+            <span>{{ item.volume }}</span
+            ><input
+              type="text"
+              class="edit-field"
+              name="volume"
+              value="{{item.volume}}"
+              style="display: none"
+            />
+          </td>
+          <td class="edit" onclick="modifyCell(this)">Edit</td>
+          <!-- Display other fields as needed -->
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
 
     <script>
-        // Implement JavaScript code to make rows editable
-        // Use AJAX to send edited data to the backend for updating
+      function modifyCell(cell){
+          var row = cell.parentNode;
+          var editFields = row.getElementsByClassName('edit-field');
+          var spans = row.getElementsByTagName('span');
+          var itemId = {{item.id}}
+          console.log(cell)
+
+          if(cell.textContent === 'Edit'){
+              for (var i = 0; i<editFields.length; i++){
+                    editFields[i].style.length.display = 'inline-block';
+                    spans[i].style.display = 'none';
+                }
+                cell.textContent = 'Save';
+            }else{
+                var formData = {}
+                for(var i=0; i<editFields.length; i++){
+                    //spans[i].textContent = editFields[i].value;
+                    //editFields[i].style.display = 'none';
+                    //spans[i].style.display = 'inline-block';
+                    formData[editFields[i].name] = editFields[i].value;
+                }
+                //cell.textContent = 'Edit'
+              }
+
+                fetch('/update/'+8, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        //'Content-Type': 'multipart/form-data'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    console.log(response)
+                })
+            .catch(error =>{
+                console.log('error', error)
+            })
+      }
     </script>
-</body>
+  </body>
 </html>

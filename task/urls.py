@@ -20,5 +20,7 @@ from stock import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.display_data, name='home'),
     path('save/', views.import_data, name='import_data'),
+    path('update/<int:pk>', views.update_data, name='update_data'),
 ]
