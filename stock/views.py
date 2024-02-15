@@ -31,3 +31,6 @@ def import_data(request):
         
     return HttpResponse({'msg': 'Saved data'})
 
+def display_data(request):
+    data = StockMarketData.objects.all()
+    return render(request, 'templates/home.html', {'data': data})

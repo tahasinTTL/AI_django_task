@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Table</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+
+        .edit{
+            color: blue;
+        }
+        </style>
+</head>
+<body>
+    <table id="editable-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>trade_code</th>
+                <th>high</th>
+                <th>Low</th>
+                <th>Open</th>
+                <th>Close</th>
+                <th>Volume</th>
+                <th>Action</th>
+                <!-- Add more column headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.date }}</td>
+                <td>{{ item.trade_code }}</td>
+                <td>{{ item.high }}</td>
+                <td>{{ item.low }}</td>
+                <td>{{ item.open }}</td>
+                <td>{{ item.close }}</td>
+                <td>{{ item.volume }}</td>
+                <td class='edit'>edit</td>
+                <!-- Display other fields as needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Implement JavaScript code to make rows editable
+        // Use AJAX to send edited data to the backend for updating
+    </script>
+</body>
+</html>
